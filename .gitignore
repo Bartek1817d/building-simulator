@@ -31,9 +31,12 @@
 *.out
 *.app
 
-.metadata
-
 # Eclipse
+.metadata
 .cproject
 .project
 x86
+
+# Other
+virtual_machine
+*-test
