@@ -40,3 +40,5 @@ x86
 # Other
 virtual_machine
 *-test
+
+out/
