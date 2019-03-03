@@ -59,6 +59,6 @@ namespace logger {
 
 }
 
-#include "../implementation/Logger.tpp"
+#include "Logger.tpp"
 
 #endif /* LOGGER_H_ */
