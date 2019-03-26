@@ -17,4 +17,4 @@ target_include_directories(building-dao PUBLIC
 
 install(TARGETS building-dao
         LIBRARY DESTINATION ${TARGET_LIB_DIR}
-        PUBLIC_HEADER DESTINATION ${TARGET_INCLUDE_DIR})
+        PUBLIC_HEADER DESTINATION ${COMMON_INCLUDE_DIR})

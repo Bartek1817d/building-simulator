@@ -1,0 +1,12 @@
+temperatures:
+  - time:   00:00:00
+    value:  0
+  - time:   01:00:00
+    value:  1.5
+  - time:   02:00:00
+    value:  2
+  - time:   03:00:00
+    value:  3
+
+timeStep:   1h
+timeDelay:  1s
