@@ -8,11 +8,13 @@
 #include <iostream>
 #include <vector>
 #include <cstdint>
+#include <string>
 #include "yaml-cpp/yaml.h"
 
 namespace configuration {
 
-    template <typename Config> Config loadConfiguration(const std::string& path);
+    template<typename Config>
+    Config loadConfiguration(const std::string &path);
 
     class Time {
         uint8_t hours, minutes, seconds;
@@ -35,9 +37,11 @@ namespace configuration {
 
         uint32_t getTimestamp() const;
 
+        std::string toString() const;
+
         Time &operator=(const Time &time);
 
-        friend std::ostream& operator<<(std::ostream &stream, const Time &time);
+        friend std::ostream &operator<<(std::ostream &stream, const Time &time);
     };
 
     struct TemperaturePoint {
@@ -48,14 +52,14 @@ namespace configuration {
     };
 
     struct Configuration {
-        std::vector<TemperaturePoint> temperatures;
+        std::vector <TemperaturePoint> temperatures;
         std::string timeStep;
         std::string timeDelay;
 
         friend std::ostream &operator<<(std::ostream &stream, const Configuration &configuration);
     };
 
-    extern template Configuration loadConfiguration<Configuration>(const std::string& path);
+    extern template Configuration loadConfiguration<Configuration>(const std::string &path);
 
 }
 

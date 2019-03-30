@@ -6,6 +6,7 @@
 #include <regex>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "yaml-cpp/yaml.h"
 #include "utills.h"
 
@@ -64,6 +65,12 @@ namespace configuration {
         return (((hours * 60u) + minutes) * 60u + seconds) * 1000u;
     }
 
+    std::string Time::toString() const {
+        char buffer[9];
+        snprintf(buffer, sizeof(buffer), "%.2hhu:%.2hhu:%.2hhu", hours, minutes, seconds);
+        return std::string(buffer);
+    }
+
     Time &Time::operator=(const Time &time) {
         Time::hours = time.hours;
         Time::minutes = time.minutes;
@@ -74,9 +81,7 @@ namespace configuration {
     using ::operator<<;
 
     std::ostream &operator<<(std::ostream &ostream, const configuration::Time &time) {
-        char buffer[9];
-        snprintf(buffer, sizeof(buffer), "%.2hhu:%.2hhu:%.2hhu", time.hours, time.minutes, time.seconds);
-        return ostream << buffer;
+        return ostream << time.toString();
     }
 
     std::ostream &operator<<(std::ostream &ostream, const configuration::TemperaturePoint &temperaturePoint) {
@@ -93,7 +98,7 @@ namespace configuration {
 namespace YAML {
 
     bool convert<configuration::Configuration>::decode(const Node &node, configuration::Configuration &rhs) {
-        rhs.temperatures = node["temperatures"].as<std::vector<configuration::TemperaturePoint >>();
+        rhs.temperatures = node["temperatures"].as < std::vector < configuration::TemperaturePoint >> ();
         rhs.timeStep = node["timeStep"].as<std::string>();
         rhs.timeDelay = node["timeDelay"].as<std::string>();
         return true;
