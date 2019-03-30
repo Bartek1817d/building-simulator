@@ -4,7 +4,7 @@ include(../common.cmake)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp configuration.cpp)
+set(SOURCE_FILES main.cpp configuration.cpp Period.cpp)
 
 link_directories(${CMAKE_INSTALL_PREFIX}/${TARGET_LIB_DIR})
 

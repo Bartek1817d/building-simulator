@@ -11,12 +11,13 @@
 
 namespace configuration {
 
-    template <typename Config> Config loadConfiguration(const std::string& path) {
+    template<typename Config>
+    Config loadConfiguration(const std::string &path) {
         const YAML::Node yamlNode = YAML::LoadFile(path);
         return yamlNode.as<Config>();
     }
 
-    template Configuration loadConfiguration<Configuration>(const std::string& path);
+    template Configuration loadConfiguration<Configuration>(const std::string &path);
 
     Time::Time() {}
 
@@ -59,8 +60,8 @@ namespace configuration {
             Time::seconds = seconds;
     }
 
-    float Time::getTimestamp() const {
-        return (((hours * 60u) + minutes) * 60u + seconds);
+    uint32_t Time::getTimestamp() const {
+        return (((hours * 60u) + minutes) * 60u + seconds) * 1000u;
     }
 
     Time &Time::operator=(const Time &time) {
@@ -84,14 +85,17 @@ namespace configuration {
     }
 
     std::ostream &operator<<(std::ostream &ostream, const configuration::Configuration &configuration) {
-        return ostream << "Configuration(temperatures=" << configuration.temperatures;
+        return ostream << "Configuration(temperatures=" << configuration.temperatures << ",\ntimeStep="
+                       << configuration.timeStep << ",\ntimeDelay=" << configuration.timeDelay << ')';
     }
 }
 
 namespace YAML {
 
     bool convert<configuration::Configuration>::decode(const Node &node, configuration::Configuration &rhs) {
-        rhs.temperatures = node["temperatures"].as < std::vector < configuration::TemperaturePoint >> ();
+        rhs.temperatures = node["temperatures"].as<std::vector<configuration::TemperaturePoint >>();
+        rhs.timeStep = node["timeStep"].as<std::string>();
+        rhs.timeDelay = node["timeDelay"].as<std::string>();
         return true;
     }
 
@@ -111,12 +115,12 @@ namespace YAML {
             return false;
         }
         const std::string &scalar = node.Scalar();
-        const std::regex re(R"((\d+):(\d+):(\d+))");
-        std::smatch m;
-        if (regex_match(scalar, m, re)) {
-            rhs.setHours(stoi(m[1].str()));
-            rhs.setMinutes(stoi(m[2].str()));
-            rhs.setSeconds(stoi(m[3].str()));
+        const std::regex regex(R"((\d+):(\d+):(\d+))");
+        std::smatch match;
+        if (regex_match(scalar, match, regex)) {
+            rhs.setHours(static_cast<uint8_t>(std::stoi(match[1].str())));
+            rhs.setMinutes(static_cast<uint8_t>(std::stoi(match[2].str())));
+            rhs.setSeconds(static_cast<uint8_t>(std::stoi(match[3].str())));
             return true;
         } else {
             return false;

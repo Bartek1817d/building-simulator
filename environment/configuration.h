@@ -33,7 +33,7 @@ namespace configuration {
 
         void setSeconds(uint8_t seconds);
 
-        float getTimestamp() const;
+        uint32_t getTimestamp() const;
 
         Time &operator=(const Time &time);
 
@@ -49,6 +49,8 @@ namespace configuration {
 
     struct Configuration {
         std::vector<TemperaturePoint> temperatures;
+        std::string timeStep;
+        std::string timeDelay;
 
         friend std::ostream &operator<<(std::ostream &stream, const Configuration &configuration);
     };
